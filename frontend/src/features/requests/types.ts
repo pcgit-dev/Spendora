@@ -48,4 +48,17 @@ export interface SpendRequest extends SpendRequestForm {
   status: RequestStatus
   createdAt: string
   approvalChain: Approver[]
+
+   // Optional for compatibility with existing saved requests
+  approvalDecisions?: ApprovalDecision[]
+}
+
+export interface ApprovalDecision {
+  id: string
+  approverId: string
+  approverName: string
+  decision: 'APPROVED' | 'REJECTED'
+  reason: string
+  decidedAt: string
+  requestVersion: number
 }

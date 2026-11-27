@@ -4,6 +4,12 @@ import DashboardPage from '@/features/dashboard/DashboardPage'
 import { Card, CardContent } from '@/components/ui/card'
 import CreateRequestPage from '@/features/requests/CreateRequestPage'
 import RequestsPage from '@/features/requests/RequestsPage'
+import ApprovalsPage from '@/features/approvals/ApprovalsPage'
+import FinancePreviewPage from '@/features/finance/FinancePreviewPage'
+import { useOutletContext } from 'react-router'
+import type { ReactNode } from 'react'
+import type { DemoUser } from '@/config/demoUsers'
+import { getHomeRoute } from '@/config/demoUsers'
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <div className="space-y-6">
@@ -34,7 +40,25 @@ function PlaceholderPage({ title }: { title: string }) {
     </div>
   )
 }
+function EmployeeOnly({
+  children,
+}: {
+  children: ReactNode
+}) {
 
+  const user = useOutletContext<DemoUser>()
+
+  if (user.role !== 'EMPLOYEE') {
+    return (
+      <Navigate
+        to={getHomeRoute(user)}
+        replace
+      />
+    )
+  }
+
+  return <>{children}</>
+}
 export default function App() {
   return (
     <Routes>
@@ -53,22 +77,29 @@ export default function App() {
 
         <Route
           path="requests"
-          element={<RequestsPage />}
+          element={
+              <EmployeeOnly>
+                <RequestsPage />
+              </EmployeeOnly>
+           }
         />
-
         <Route
           path="requests/new"
-          element={<CreateRequestPage />}
+           element={
+              <EmployeeOnly>
+                <CreateRequestPage />
+              </EmployeeOnly>
+         }
         />
 
         <Route
           path="approvals"
-          element={<PlaceholderPage title="Approvals" />}
+          element={<ApprovalsPage />}
         />
 
         <Route
           path="finance"
-          element={<PlaceholderPage title="Finance" />}
+          element={<FinancePreviewPage />}
         />
 
         <Route
