@@ -2,7 +2,8 @@ import { Routes, Route, Navigate, Link } from 'react-router'
 import AppLayout from '@/layouts/AppLayout'
 import DashboardPage from '@/features/dashboard/DashboardPage'
 import { Card, CardContent } from '@/components/ui/card'
-
+import CreateRequestPage from '@/features/requests/CreateRequestPage'
+import RequestsPage from '@/features/requests/RequestsPage'
 function PlaceholderPage({ title }: { title: string }) {
   return (
     <div className="space-y-6">
@@ -52,12 +53,12 @@ export default function App() {
 
         <Route
           path="requests"
-          element={<PlaceholderPage title="My Requests" />}
+          element={<RequestsPage />}
         />
 
         <Route
           path="requests/new"
-          element={<PlaceholderPage title="Create Spend Request" />}
+          element={<CreateRequestPage />}
         />
 
         <Route
