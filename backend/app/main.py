@@ -15,7 +15,9 @@ from sqlalchemy.orm import Session
 
 from app.config import settings
 from app.database import get_db
-
+from app.modules.master_data.routes import (
+    router as master_data_router
+)
 
 app = FastAPI(
     title=settings.app_name,
@@ -23,7 +25,10 @@ app = FastAPI(
     version="0.1.0",
 )
 
-
+app.include_router(
+    master_data_router,
+    prefix=settings.api_prefix
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
