@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: spendora-postgres
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: spendora
+      POSTGRES_USER: spendora
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    ports:
+      - "127.0.0.1:5433:5432"
+
+    volumes:
+      - spendora_postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U spendora -d spendora"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  spendora_postgres_data:
